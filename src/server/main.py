@@ -1,15 +1,23 @@
-# starts running the app on a local server
-
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from signup import signup, create_tables
 from login import login
-from grid import generate_puzzle
-import logging
+from professor import create_word_search
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000", "supports_credentials": True}})
 
-logging.basicConfig(level=logging.DEBUG)
+# Configure CORS with credentials support
+cors_config = {
+    "origins": ["http://localhost:3000"],  # Specify your frontend's URL
+    "methods": ["POST"],
+    "allow_headers": ["Content-Type", "Authorization"],
+    "supports_credentials": True  # Enable credentials
+}
+CORS(app, resources={r"/api/*": cors_config})
+
+# Initialize tables
+with app.app_context():
+    create_tables()
 
 @app.route('/api/signup', methods=['POST'])
 def signup_user():
@@ -47,6 +55,14 @@ def generate_word_search():
         return jsonify(result), 200
     else:
         return jsonify(result), 400
+
+@app.route('/api/create_word_search', methods=['POST'])
+def create_word_search_route():
+    data = request.json
+    if not data:
+        return jsonify({"success": False, "message": "No data provided"}), 400
+    result = create_word_search(data)
+    return jsonify(result), 200 if result["success"] else 400
 
 
 if __name__ == '__main__':

@@ -1,47 +1,51 @@
-# extracts today's strands words given by professor thru frontend, sends them to db
+import sqlite3
+import os
 
-import mysql.connector
-from mysql.connector import Error
-from datetime import datetime
-
-def update_professor_data(email, words, title, date, code):
+def create_connection():
     try:
-        connection = mysql.connector.connect(
-            host='localhost',
-            database='your_database_name',
-            user='your_username',
-            password='your_password'
-        )
+        db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'database_search.db')
+        connection = sqlite3.connect(db_path)
+        connection.execute("PRAGMA foreign_keys = 1")
+        print(f"Connected to database at {db_path}")
+        return connection
+    except sqlite3.Error as e:
+        print(f"Error connecting to SQLite database: {e}")
+        return None
+
+def create_word_search(data):
+    connection = None
+    try:
+        connection = create_connection()
+        if not connection:
+            return {"success": False, "message": "Database connection failed"}
 
         cursor = connection.cursor()
 
-        query = """
-        UPDATE professor 
-        SET word1 = %s, word2 = %s, word3 = %s, word4 = %s, word5 = %s, word6 = %s, 
-            title = %s, date = %s, code = %s 
-        WHERE email_address = %s
-        """
-        
-        cursor.execute(query, (*words, title, date, code, email))
+        # Insert the word search data into the database
+        cursor.execute("""
+            INSERT INTO word_searches (topic, date, code, word1, word2, word3, word4, word5, word6)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            data['topic'],
+            data['date'],
+            data['code'],
+            data['words'][0],
+            data['words'][1],
+            data['words'][2],
+            data['words'][3],
+            data['words'][4],
+            data['words'][5]
+        ))
+
         connection.commit()
 
-        return True
+        return {"success": True, "message": "Word search created successfully"}
 
-    except Error as e:
+    except sqlite3.Error as e:
         print(f"Error: {e}")
-        return False
-
+        return {"success": False, "message": "An error occurred while creating the word search"}
     finally:
-        if connection.is_connected():
-            cursor.close()
+        if connection:
             connection.close()
 
-# Usage example
-# words = ["HAPPYBIRTHDAY", "CELEBRATE", "CARDS", "PARTY", "CAKE", "CANDLES"]
-# date_str = "05/20/2023"  # mm/dd/yyyy
-# date_obj = datetime.strptime(date_str, "%m/%d/%Y").date()
-# success = update_professor_data("professor@email.com", words, "Birthday Puzzle", date_obj, "BDAY001")
-# if success:
-#     print("Professor data updated successfully")
-# else:
-#     print("Failed to update professor data")
+# You may want to add more functions here for other professor-related operations

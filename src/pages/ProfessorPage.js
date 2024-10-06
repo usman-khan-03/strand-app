@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import './ProfessorPage.scss';
 
 function ProfessorPage({ user }) {
@@ -20,10 +21,20 @@ function ProfessorPage({ user }) {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleGenerate = (e) => {
+  const handleGenerate = async (e) => {
     e.preventDefault();
-    // Send data to backend
-    console.log('Generating word search with data:', formData);
+    try {
+      const response = await axios.post('http://127.0.0.1:5000/api/create_word_search', formData, {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true
+      });
+      console.log('Word search generated:', response.data);
+      // Handle success (e.g., show a success message, clear the form, etc.)
+    } catch (error) {
+      console.error('Error generating word search:', error);
+      const errorMessage = error.response?.data?.message || 'An unexpected error occurred';
+      alert(errorMessage);
+    }
   };
 
   return (
