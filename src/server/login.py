@@ -5,7 +5,8 @@ import os
 
 def create_connection():
     try:
-        db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'new_database.db')
+        # Update the db_path to your existing database
+        db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'database_search.db')
         connection = sqlite3.connect(db_path)
         connection.execute("PRAGMA foreign_keys = 1")
         print(f"Connected to database at {db_path}")
@@ -13,6 +14,7 @@ def create_connection():
     except sqlite3.Error as e:
         print(f"Error connecting to SQLite database: {e}")
         return None
+
 
 def login(email, password):
     connection = None

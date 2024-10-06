@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios'
 import './Auth.scss';
 
 function Auth({ onAuthSuccess }) {
@@ -25,10 +26,20 @@ function Auth({ onAuthSuccess }) {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simulate authentication
-    onAuthSuccess(formData);
+    const endpoint = isSignUp ? '/api/signup' : '/api/login';
+    try {
+      const response = await axios.post(`http://127.0.0.1:5000${endpoint}`, formData, {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true  // Enables cross-origin cookies, if required
+      });
+      onAuthSuccess(response.data);
+    } catch (error) {
+      console.error('Authentication error:', error);
+      const errorMessage = error.response?.data?.message || 'An unexpected error occurred';
+      alert(errorMessage);
+    }
   };
 
   return (
