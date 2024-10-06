@@ -3,6 +3,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from login import login
+from signup import signup
 from grid import generate_puzzle
 import logging
 
@@ -13,7 +14,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 @app.route('/api/signup', methods=['POST'])
 def signup_user():
-    data = request.json
+    data = request.json 
     if not data:
         return jsonify({"success": False, "message": "No data provided"}), 400
     result = signup(data)
