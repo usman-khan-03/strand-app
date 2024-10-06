@@ -103,7 +103,11 @@ Once you have the application running, you can begin creating and managing stran
 *Insert screenshots of your app to give users a visual guide.*
 
 Example:
-![Strands Homepage](path-to-screenshot.png)
+<img width="1199" alt="Screenshot 2024-10-06 at 11 51 31 AM" src="https://github.com/user-attachments/assets/46d96165-4acd-4f65-9054-be9f9c3793c9">
+<img width="1200" alt="Screenshot 2024-10-06 at 11 52 18 AM" src="https://github.com/user-attachments/assets/491f6a5d-459c-424c-a6c7-3e3b570714fb">
+<img width="1200" alt="Screenshot 2024-10-06 at 11 52 47 AM" src="https://github.com/user-attachments/assets/7272731c-3631-4799-bb71-b144bdec3b56">
+<img width="1200" alt="Screenshot 2024-10-06 at 11 53 23 AM" src="https://github.com/user-attachments/assets/22ba6490-c25b-43b0-96bc-7a8e247a73f9">
+<img width="1201" alt="Screenshot 2024-10-06 at 11 55 23 AM" src="https://github.com/user-attachments/assets/87f33658-82f1-4a81-a90f-6dfe54c955b2">
 
 ## Contributing
 
