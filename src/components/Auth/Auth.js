@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios'
+import axios from 'axios';
 import './Auth.scss';
 
 function Auth({ onAuthSuccess }) {
@@ -30,11 +30,32 @@ function Auth({ onAuthSuccess }) {
     e.preventDefault();
     const endpoint = isSignUp ? '/api/signup' : '/api/login';
     try {
-      const response = await axios.post(`http://127.0.0.1:5000${endpoint}`, formData, {
+      const data = isSignUp ? formData : {
+        email: formData.email,
+        password: formData.password,
+      };
+
+      const response = await axios.post(`http://127.0.0.1:5000${endpoint}`, data, {
         headers: { 'Content-Type': 'application/json' },
-        withCredentials: true  // Enables cross-origin cookies, if required
+        withCredentials: true,
       });
-      onAuthSuccess(response.data);
+
+      if (response.data.success) {
+        if (isSignUp) {
+          alert('Sign-up successful! Please log in.');
+          setIsSignUp(false);
+          setFormData({
+            name: '',
+            email: '',
+            password: '',
+            role: 'student',
+          });
+        } else {
+          onAuthSuccess(response.data);
+        }
+      } else {
+        alert(response.data.message);
+      }
     } catch (error) {
       console.error('Authentication error:', error);
       const errorMessage = error.response?.data?.message || 'An unexpected error occurred';

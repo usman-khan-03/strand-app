@@ -1,5 +1,3 @@
-# starts running the app on a local server
-
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from signup import signup, create_tables
@@ -8,13 +6,7 @@ from login import login
 app = Flask(__name__)
 
 # Configure CORS with credentials support
-cors_config = {
-    "origins": ["http://localhost:3000"],  # Specify your frontend's URL
-    "methods": ["POST"],
-    "allow_headers": ["Content-Type", "Authorization"],
-    "supports_credentials": True  # Enable credentials
-}
-CORS(app, resources={r"/api/*": cors_config})
+CORS(app, resources={r"/api/*": {"origins": ["http://localhost:3000"], "supports_credentials": True}})
 
 # Initialize tables
 with app.app_context():
@@ -26,7 +18,10 @@ def signup_user():
     if not data:
         return jsonify({"success": False, "message": "No data provided"}), 400
     result = signup(data)
-    return jsonify(result), 200 if result["success"] else 400
+    if result["success"]:
+        return jsonify(result), 201
+    else:
+        return jsonify(result), 400
 
 @app.route('/api/login', methods=['POST'])
 def login_user():
@@ -34,7 +29,10 @@ def login_user():
     if not data:
         return jsonify({"success": False, "message": "No data provided"}), 400
     result = login(data["email"], data["password"])
-    return jsonify(result), 200 if result["success"] else 401
+    if result["success"]:
+        return jsonify(result), 200
+    else:
+        return jsonify(result), 401
 
 if __name__ == '__main__':
     app.run(debug=True)
