@@ -27,13 +27,13 @@ function Auth({ onAuthSuccess }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // For now, we'll just simulate authentication
+    // Simulate authentication
     onAuthSuccess(formData);
   };
 
   return (
     <div className="auth">
-      <div className={`auth__container ${isSignUp ? 'sign-up' : ''}`}>
+      <div className="auth__container">
         <div className="auth__toggle">
           <button onClick={handleToggle}>
             {isSignUp ? 'Already have an account?' : 'Create an account'}
@@ -42,66 +42,25 @@ function Auth({ onAuthSuccess }) {
         <div className="auth__form-container">
           <h2>{isSignUp ? 'Sign Up' : 'Log In'}</h2>
           <form className="auth__form" onSubmit={handleSubmit}>
-            {isSignUp && (
-            <>
-              <input
-                type="text"
-                name="name"
-                placeholder="Name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
-              <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-              <div className="auth__role">
-                <label>
-                    <input
-                    type="radio"
-                    name="role"
-                    value="student"
-                    checked={formData.role === 'student'}
-                    onChange={handleChange}
-                    />
-                    Student
-                </label>
-                <label>
-                    <input
-                    type="radio"
-                    name="role"
-                    value="professor"
-                    checked={formData.role === 'professor'}
-                    onChange={handleChange}
-                    />
-                    Professor
-                </label>
-              </div>
-            </>
-            )}
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-            {isSignUp || (
+            {isSignUp ? (
               <>
+                {/* Sign Up Form */}
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
                 <input
                   type="password"
                   name="password"
@@ -110,9 +69,52 @@ function Auth({ onAuthSuccess }) {
                   onChange={handleChange}
                   required
                 />
+                <div className="auth__role">
+                  <label>
+                    <input
+                      type="radio"
+                      name="role"
+                      value="student"
+                      checked={formData.role === 'student'}
+                      onChange={handleChange}
+                    />
+                    Student
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="role"
+                      value="professor"
+                      checked={formData.role === 'professor'}
+                      onChange={handleChange}
+                    />
+                    Professor
+                  </label>
+                </div>
+                <button type="submit">Sign Up</button>
+              </>
+            ) : (
+              <>
+                {/* Sign In Form */}
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+                <button type="submit">Log In</button>
               </>
             )}
-            <button type="submit">{isSignUp ? 'Sign Up' : 'Log In'}</button>
           </form>
         </div>
       </div>
