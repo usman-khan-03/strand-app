@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import WordSearchGame from '../components/WordSearchGame/WordSearchGame';
 import { useParams, useNavigate } from 'react-router-dom';
 import './WordSearchGamePage.scss';
+import Modal from '../components/Modal/Modal';
 
 function WordSearchGamePage({ user }) {
   const { code } = useParams();
@@ -11,6 +12,7 @@ function WordSearchGamePage({ user }) {
   const [foundWords, setFoundWords] = useState([]);
   const [timer, setTimer] = useState(0);
   const [gameOver, setGameOver] = useState(false);
+  const [wordsToFind, setWordsToFind] = useState(['CATS', 'DOGS', 'BIRD', 'FISH']);
 
   useEffect(() => {
     // Fetch grid data from backend using code
@@ -22,8 +24,8 @@ function WordSearchGamePage({ user }) {
       ['F', 'I', 'S', 'H'],
     ]);
     setDefinitions({
-      CAT: 'A small domesticated carnivorous mammal.',
-      DOG: 'A domesticated carnivorous mammal that typically has a long snout.',
+      CATS: 'A small domesticated carnivorous mammal.',
+      DOGS: 'A domesticated carnivorous mammal that typically has a long snout.',
       BIRD: 'A warm-blooded egg-laying vertebrate.',
       FISH: 'A limbless cold-blooded vertebrate animal with gills and fins.',
     });
@@ -43,13 +45,14 @@ function WordSearchGamePage({ user }) {
 
   const handleWordFound = (word) => {
     setFoundWords((prev) => [...prev, word]);
+  
     // Show definition modal
     alert(`Definition of ${word}: ${definitions[word]}`);
-    if (foundWords.length + 1 === Object.keys(definitions).length) {
+  
+    if (foundWords.length + 1 === wordsToFind.length) {
       setGameOver(true);
-      // Show stats modal
-      alert(`Game Over! Time taken: ${timer} seconds`);
-      // Redirect back to dashboard after a delay
+      // Show stats modal or navigate back
+      alert(`Great go! Time taken: ${timer} seconds`);
       setTimeout(() => navigate('/'), 3000);
     }
   };
@@ -58,7 +61,25 @@ function WordSearchGamePage({ user }) {
     <div className="word-search-game-page">
       <div className="timer">Time: {timer}s</div>
       {gridData && (
-        <WordSearchGame gridData={gridData} onWordFound={handleWordFound} />
+        <>
+          <WordSearchGame
+            gridData={gridData}
+            onWordFound={handleWordFound}
+            wordsToFind={wordsToFind}
+          />
+          <button className="finish-button" onClick={() => setGameOver(true)}>
+            Finish
+          </button>
+        </>
+      )}
+      {gameOver && (
+        <Modal isOpen={gameOver} onClose={() => navigate('/')}>
+          <div className="game-over-modal">
+            <h2>Well done!</h2>
+            <p>You found all the words in {timer} seconds.</p>
+            <button onClick={() => navigate('/')}>Return to Dashboard</button>
+          </div>
+        </Modal>
       )}
     </div>
   );
