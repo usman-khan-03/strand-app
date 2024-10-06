@@ -10,8 +10,29 @@
       font-size: 24px;
     }
   
-    &__user {
-      font-size: 18px;
+    &__actions {
+      display: flex;
+      align-items: center;
+  
+      .navbar__user {
+        font-size: 18px;
+        margin-right: 20px;
+      }
+  
+      .navbar__button {
+        margin-left: 10px;
+        padding: 5px 10px;
+        background-color: #fff;
+        color: #1890ff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+  
+        &:hover {
+          background-color: #e6f7ff;
+        }
+      }
     }
   }
   

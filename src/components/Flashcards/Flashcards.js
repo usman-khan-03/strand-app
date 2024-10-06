@@ -12,17 +12,23 @@ function Flashcards({ wordsWithDefinitions }) {
     );
   };
 
+  const handleFlip = () => {
+    setShowDefinition(!showDefinition);
+  };
+
   return (
     <div className="flashcards">
-      <div
-        className={`flashcard ${showDefinition ? 'show-definition' : ''}`}
-        onClick={() => setShowDefinition(!showDefinition)}
-      >
-        <div className="flashcard__front">
-          {wordsWithDefinitions[currentIndex].word}
-        </div>
-        <div className="flashcard__back">
-          {wordsWithDefinitions[currentIndex].definition}
+      <div className="flashcard-container">
+        <div
+          className={`flashcard ${showDefinition ? 'show-definition' : ''}`}
+          onClick={handleFlip}
+        >
+          <div className="flashcard__front">
+            {wordsWithDefinitions[currentIndex].word}
+          </div>
+          <div className="flashcard__back">
+            {wordsWithDefinitions[currentIndex].definition}
+          </div>
         </div>
       </div>
       <button onClick={handleNext}>Next</button>

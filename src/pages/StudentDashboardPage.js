@@ -66,28 +66,26 @@ function StudentDashboardPage({ user }) {
 
       {isModalOpen && selectedStats && (
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-          <div className="stats-modal">
-            <h3>
-              {selectedStats.topic} - {selectedStats.date}
-            </h3>
+            <div className="stats-modal">
+            <h3>{selectedStats.topic} - {selectedStats.date}</h3>
             {!showFlashcards ? (
-              <>
-                <ul>
-                  {selectedStats.words.map((wordObj, idx) => (
+                <>
+                <ul className="stats-modal__list">
+                    {selectedStats.words.map((wordObj, idx) => (
                     <li key={idx}>
-                      <strong>{wordObj.word}</strong>: {wordObj.definition}
+                        <strong>{wordObj.word}</strong>: {wordObj.definition}
                     </li>
-                  ))}
+                    ))}
                 </ul>
-                <button onClick={() => setShowFlashcards(true)}>View as Flashcards</button>
-              </>
+                <button onClick={() => setShowFlashcards(true)} className="stats-modal__button">View as Flashcards</button>
+                </>
             ) : (
-              <>
+                <>
                 <Flashcards wordsWithDefinitions={selectedStats.words} />
-                <button onClick={() => setShowFlashcards(false)}>Back to List</button>
-              </>
+                <button onClick={() => setShowFlashcards(false)} className="stats-modal__button">Back to List</button>
+                </>
             )}
-          </div>
+            </div>
         </Modal>
       )}
     </div>
