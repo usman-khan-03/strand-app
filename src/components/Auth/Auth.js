@@ -43,38 +43,54 @@ function Auth({ onAuthSuccess }) {
           <h2>{isSignUp ? 'Sign Up' : 'Log In'}</h2>
           <form className="auth__form" onSubmit={handleSubmit}>
             {isSignUp && (
-              <>
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                />
-                <div className="auth__role">
-                  <label>
+            <>
+              <input
+                type="text"
+                name="name"
+                placeholder="Name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+              <div className="auth__role">
+                <label>
                     <input
-                      type="radio"
-                      name="role"
-                      value="student"
-                      checked={formData.role === 'student'}
-                      onChange={handleChange}
+                    type="radio"
+                    name="role"
+                    value="student"
+                    checked={formData.role === 'student'}
+                    onChange={handleChange}
                     />
                     Student
-                  </label>
-                  <label>
+                </label>
+                <label>
                     <input
-                      type="radio"
-                      name="role"
-                      value="professor"
-                      checked={formData.role === 'professor'}
-                      onChange={handleChange}
+                    type="radio"
+                    name="role"
+                    value="professor"
+                    checked={formData.role === 'professor'}
+                    onChange={handleChange}
                     />
                     Professor
-                  </label>
-                </div>
-              </>
+                </label>
+              </div>
+            </>
             )}
             <input
               type="email"
