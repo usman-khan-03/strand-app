@@ -13,9 +13,13 @@ function App() {
     setUser(userData);
   };
 
+  const handleLogout = () => {
+    setUser(null);
+  };
+
   return (
     <Router>
-      {user && <Navbar user={user} />}
+      {user && <Navbar user={user} onLogout={handleLogout} />}
       <Routes>
         {!user ? (
           <Route path="*" element={<Auth onAuthSuccess={handleAuthSuccess} />} />
