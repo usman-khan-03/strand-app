@@ -1,6 +1,7 @@
-{
+{ 
     "role": "student",
-    "name": "Alice Johnson",
-    "email": "alice@example.com",
-    "password": "securepass123"
-  }
+    "name": "John Doe",
+    "email": "jon@1123",
+    "password": "1234"
+}
+
