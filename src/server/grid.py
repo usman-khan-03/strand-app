@@ -1,16 +1,51 @@
-# makes the grid for the word search using words pulled from db + uses llm api to make definitions
-
 import random
-import json
-from typing import List, Tuple
+import sqlite3
+import os
+import logging
 
-def generate_word_search(words: List[str], max_attempts: int = 1000) -> List[List[str]]:
-    grid_size = len(max(words, key=len))
+logging.basicConfig(level=logging.DEBUG)
+
+def create_connection():
+    try:
+        db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'database_search.db')
+        connection = sqlite3.connect(db_path)
+        logging.info(f"Connected to database at {db_path}")
+        return connection
+    except sqlite3.Error as e:
+        logging.error(f"Error connecting to SQLite database: {e}")
+        return None
+
+def get_words_from_db(code):
+    connection = create_connection()
+    if not connection:
+        return None
+    
+    try:
+        cursor = connection.cursor()
+        query = "SELECT word1, word2, word3, word4, word5, word6 FROM professor WHERE code = ?"
+        logging.debug(f"Executing query: {query} with code: {code}")
+        cursor.execute(query, (code,))
+        result = cursor.fetchone()
+        if result:
+            words = [word for word in result if word]
+            logging.info(f"Found words for code {code}: {words}")
+            return words
+        else:
+            logging.warning(f"No words found for code: {code}")
+            return None
+    except sqlite3.Error as e:
+        logging.error(f"Database error: {e}")
+        return None
+    finally:
+        connection.close()
+
+def generate_word_search(words, max_attempts=1000):
+    grid_size = max(len(max(words, key=len)), len(words))
     
     def create_empty_grid():
         return [[' ' for _ in range(grid_size)] for _ in range(grid_size)]
 
-    def is_valid_position(grid, x: int, y: int) -> bool:
+    def is_valid_position(grid, x, y):
         return 0 <= x < grid_size and 0 <= y < grid_size and grid[y][x] == ' '
 
     def get_directions():
@@ -21,7 +56,7 @@ def generate_word_search(words: List[str], max_attempts: int = 1000) -> List[Lis
             [(-1, 0), (0, 1)], [(-1, 0), (0, -1)]
         ]
 
-    def place_word(grid, word: str, start_pos: Tuple[int, int], direction: List[Tuple[int, int]]) -> bool:
+    def place_word(grid, word, start_pos, direction):
         x, y = start_pos
         temp_grid = [row[:] for row in grid]
         for i, letter in enumerate(word):
@@ -66,16 +101,32 @@ def generate_word_search(words: List[str], max_attempts: int = 1000) -> List[Lis
 
     raise ValueError("Unable to generate a valid word search puzzle after multiple attempts")
 
-# Generate puzzle and save to JSON
-words = ["HAPPYBIRTHDAY", "CELEBRATE", "CARDS", "PARTY", "CAKE", "CANDLES", "GIFTS"]
-puzzle = generate_word_search(words)
+def generate_puzzle(code):
+    logging.info(f"Generating puzzle for code: {code}")
+    words = get_words_from_db(code)
+    if not words:
+        logging.warning(f"No words found for code: {code}")
+        return {"success": False, "message": f"No words found for the given code: {code}"}
+    
+    try:
+        puzzle = generate_word_search(words)
+        puzzle_data = {
+            "success": True,
+            "puzzle": puzzle,
+            "words": words
+        }
+        logging.info(f"Successfully generated puzzle for code {code}")
+        return puzzle_data
+    except ValueError as e:
+        logging.error(f"Error generating puzzle: {e}")
+        return {"success": False, "message": str(e)}
 
-puzzle_data = {
-    "puzzle": puzzle,
-    "words": words
-}
-
-with open('word_search_puzzle.json', 'w') as f:
-    json.dump(puzzle_data, f)
-
-print("Puzzle generated and saved to word_search_puzzle.json")
+if __name__ == '__main__':
+    import sys
+    if len(sys.argv) != 2:
+        print("Usage: python grid.py <code>")
+        sys.exit(1)
+    
+    code = sys.argv[1]
+    result = generate_puzzle(code)
+    print(result)
