@@ -51,8 +51,11 @@ function Auth({ onAuthSuccess }) {
             role: 'student',
           });
         } else {
-          onAuthSuccess(response.data);
-        }
+            onAuthSuccess({
+                name: response.data.user.name,
+                email: response.data.user.email,
+                role: response.data.role,
+              });        }
       } else {
         alert(response.data.message);
       }
