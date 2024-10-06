@@ -34,6 +34,7 @@ def update_professor_data(email, words, title, date, code):
     finally:
         if connection.is_connected():
             cursor.close()
+            
             connection.close()
 
 # Usage example
