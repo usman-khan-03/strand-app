@@ -1,0 +1,84 @@
+.auth {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f2f5;
+  
+    &__container {
+      background: #fff;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.6s;
+      width: 400px;
+      max-width: 90%;
+  
+      &.sign-up {
+        transform: rotateY(180deg);
+      }
+    }
+  
+    &__toggle {
+      margin-bottom: 20px;
+  
+      button {
+        background: none;
+        border: none;
+        color: #1890ff;
+        cursor: pointer;
+        font-size: 16px;
+      }
+    }
+  
+    &__form-container {
+      position: relative;
+  
+      h2 {
+        margin-bottom: 20px;
+        color: #333;
+      }
+    }
+  
+    &__form {
+      display: flex;
+      flex-direction: column;
+  
+      input[type='text'],
+      input[type='email'],
+      input[type='password'] {
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #d9d9d9;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+  
+      button {
+        padding: 10px;
+        background-color: #1890ff;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+      }
+    }
+  
+    &__role {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 15px;
+  
+      label {
+        margin: 0 10px;
+        font-size: 16px;
+  
+        input {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+  

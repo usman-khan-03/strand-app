@@ -1,0 +1,24 @@
+@import '../components/Auth/Auth.scss';
+@import '../components/Navbar/Navbar.scss';
+@import '../components/WordSearchGame/WordSearchGame.scss';
+@import '../components/Modal/Modal.scss';
+@import '../components/Flashcards/Flashcards.scss';
+@import '../pages/ProfessorPage.scss';
+@import '../pages/StudentDashboardPage.scss';
+@import '../pages/WordSearchGamePage.scss';
+
+/* Global styles */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f2f5;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  outline: none;
+}
