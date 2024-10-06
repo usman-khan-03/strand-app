@@ -1,8 +1,9 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, session
 from flask_cors import CORS
+from functools import wraps
 from signup import signup, create_tables
 from login import login
-from professor import create_word_search
+from professor import update_professor_data
 
 app = Flask(__name__)
 
@@ -64,6 +65,32 @@ def create_word_search_route():
     result = create_word_search(data)
     return jsonify(result), 200 if result["success"] else 400
 
+
+@app.route('/api/professor_data', methods=['POST'])
+def receive_professor_data():
+    data = request.json
+    if not data:
+        return jsonify({"success": False, "message": "No data provided"}), 400
+
+    # Extract data from the request
+    topic = data.get('topic')
+    date = data.get('date')
+    code = data.get('code')
+    words = data.get('words')
+
+    # Use the fixed email address
+    email = 'project@gmail.com'
+
+    # Validate the received data
+    if not (topic and date and code and words and len(words) == 6):
+        return jsonify({"success": False, "message": "Incomplete data provided"}), 400
+
+    # Call the function to update the professor's data
+    success = update_professor_data(email, words, topic, date, code)
+    if success:
+        return jsonify({"success": True, "message": "Data updated successfully"}), 200
+    else:
+        return jsonify({"success": False, "message": "Failed to update data"}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
