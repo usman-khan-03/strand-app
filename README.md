@@ -65,7 +65,7 @@ To run the **Strands** app fully, including both the frontend and backend, follo
 4. **Run the backend server**:
    Once the dependencies are installed, start the backend server:
    ```bash
-   python app.py
+   python main.py
    ```
    This command should launch the backend, which will handle requests from the frontend.
 
@@ -87,42 +87,6 @@ To run the **Strands** app fully, including both the frontend and backend, follo
 - For production, consider using tools like **Docker** for containerizing both frontend and backend, or tools like **nginx** to manage requests between frontend and backend more effectively.
 
 These steps should help you set up and run both parts of the Strands app locally.
-
-### Prerequisites
-
-- **Node.js**: You need to have [Node.js](https://nodejs.org/) installed on your machine.
-- **Git**: Ensure that Git is installed and properly configured.
-
-### Steps
-
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/usman-khan-03/strands-app.git
-   cd strands-app
-   ```
-
-2. **Install Dependencies**
-   Navigate to the project directory and install the necessary dependencies using npm or yarn:
-   ```bash
-   npm install
-   ```
-   or
-   ```bash
-   yarn install
-   ```
-
-3. **Start the Application**
-   After installing the dependencies, you can start the development server by running:
-   ```bash
-   npm start
-   ```
-   or
-   ```bash
-   yarn start
-   ```
-
-4. **Access the Application**
-   Open your browser and navigate to `http://localhost:3000` to view the application.
 
 ## Usage
 
