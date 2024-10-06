@@ -1,0 +1,1 @@
+# once word search is completed, the attendance for each student is marked complete

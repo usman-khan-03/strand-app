@@ -1,0 +1,1 @@
+# starts running the app on a local server

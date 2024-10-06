@@ -1,0 +1,1 @@
+# extracts today's strands words given by professor thru frontend, sends them to db
