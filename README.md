@@ -100,7 +100,7 @@ Once you have the application running, you can begin creating and managing stran
 
 ## Screenshots
 
-*Insert screenshots of your app to give users a visual guide.*
+*Screenshots of our app to give users a visual guide.*
 
 Example:
 <img width="1199" alt="Screenshot 2024-10-06 at 11 51 31 AM" src="https://github.com/user-attachments/assets/46d96165-4acd-4f65-9054-be9f9c3793c9">
