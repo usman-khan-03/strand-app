@@ -2,7 +2,8 @@
 
 **Strands** is an application designed to simplify and enhance the user experience for organizing and categorizing information. With its clean and intuitive interface, Strands provides an efficient way to manage and visualize data strands in a user-friendly manner.
 
-Columbia Hackathon, DivHacks 2024 – MLH Fidelity Best DEI Hack Winner!! Please feel free to visit the DoraHacks page here: https://dorahacks.io/buidl/17006
+### Columbia Hackathon, DivHacks 2024 – MLH Fidelity Best DEI Hack Winner!! 
+Please feel free to visit the DoraHacks page here: https://dorahacks.io/buidl/17006
 
 ## Table of Contents
 
